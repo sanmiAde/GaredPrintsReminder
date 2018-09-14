@@ -1,6 +1,7 @@
 package com.adetech.garedprintsreminder.ui.orders
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +23,10 @@ class OrdersListFragment : Fragment() {
                       Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                    .setAction("Action", null).show()
         }
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+       text.text =  prefs.getString("number_of_orders", "")
+
     }
 
     companion object {

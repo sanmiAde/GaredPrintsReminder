@@ -15,7 +15,7 @@ import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class OrdersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +81,6 @@ class OrdersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
 
-        //TODo rearrange  ui project.
     }
 
 
@@ -90,6 +89,5 @@ class OrdersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
         }
-
     }
 }
