@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.data
+package com.adetech.garedprintsreminder.data.database
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
@@ -22,5 +22,8 @@ interface OrderDao {
 
     @Delete
     fun deleteAll()
+
+    @Delete
+    fun deleteOrder(order: Order)
 
 }

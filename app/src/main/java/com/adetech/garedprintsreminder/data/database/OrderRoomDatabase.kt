@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.data
+package com.adetech.garedprintsreminder.data.database
 
 import android.arch.persistence.room.*
 import android.content.Context
@@ -13,7 +13,7 @@ abstract class OrderRoomDatabase: RoomDatabase() {
         private var  instance : OrderRoomDatabase? = null
 
         @Synchronized
-        fun getDatabase(context: Context): OrderRoomDatabase{
+        fun getDatabase(context: Context): OrderRoomDatabase {
             if(instance == null){
                 instance = Room.databaseBuilder(context.applicationContext, OrderRoomDatabase::class.java, "word_database").build()
             }

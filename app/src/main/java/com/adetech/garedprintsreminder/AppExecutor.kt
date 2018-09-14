@@ -34,8 +34,7 @@ class AppExecutors private constructor(private val diskIO: Executor, private val
         private val LOCK = Any()
         private var sInstance: AppExecutors? = null
 
-        val instance: AppExecutors?
-            get() {
+        fun getRepository(): AppExecutors {
                 if (sInstance == null) {
                     synchronized(LOCK) {
                         sInstance = AppExecutors(Executors.newSingleThreadExecutor(),
@@ -43,7 +42,8 @@ class AppExecutors private constructor(private val diskIO: Executor, private val
                                 MainThreadExecutor())
                     }
                 }
-                return sInstance
+            return sInstance!!
             }
     }
+
 }

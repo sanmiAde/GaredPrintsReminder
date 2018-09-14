@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.adetech.garedprintsreminder.R
-import com.adetech.garedprintsreminder.data.Order
+import com.adetech.garedprintsreminder.data.database.Order
 
 class AddOrderActivity : AppCompatActivity() {
 
@@ -18,6 +18,8 @@ class AddOrderActivity : AppCompatActivity() {
 
         private const val ARG_ID: String = "id"
 
+        //Todo change parameter to id
+        //Todo implement fragment
         fun newInstance(context: Context, order: Order?): Intent{
             val intent: Intent = Intent(context, AddOrderActivity::class.java)
             if(order != null){

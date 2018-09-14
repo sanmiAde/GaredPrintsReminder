@@ -11,7 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
-import com.adetech.garedprintsreminder.data.Order
+import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.ui.EditOrder.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*

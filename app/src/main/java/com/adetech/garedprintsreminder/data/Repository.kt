@@ -6,8 +6,9 @@ import com.adetech.garedprintsreminder.AppExecutors
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderDao
 import com.adetech.garedprintsreminder.data.database.OrderRoomDatabase
+import java.util.*
 
-class Repository(private val application: Application, private val appExecutors: AppExecutors) {
+class Repository(application: Application, private val appExecutors: AppExecutors) {
     private val orderDao: OrderDao
     private val allOrders: LiveData<List<Order>>
 
@@ -34,15 +35,20 @@ class Repository(private val application: Application, private val appExecutors:
         appExecutors.diskIO().execute { orderDao.deleteOrder(order) }
     }
 
-//    companion object {
-//        private var  instance : OrderRoomDatabase? = null
-//
-//        @Synchronized
-//        fun getDatabase(context: Context): OrderRoomDatabase {
-//            if(instance == null){
-//                instance = Room.databaseBuilder(context.applicationContext, OrderRoomDatabase::class.java, "word_database").build()
-//            }
-//            return  instance!!
-//        }
-//    }
+    fun getOrder(id: UUID) {
+        appExecutors.diskIO().execute { orderDao.getOrder(id) }
+    }
+
+    companion object {
+        private var instance: Repository? = null
+
+        @Synchronized
+        fun getDatabase(application: Application): Repository {
+            if (instance == null) {
+                val appExecutors: AppExecutors = AppExecutors.getRepository()
+                instance = Repository(application, appExecutors)
+            }
+            return instance!!
+        }
+    }
 }

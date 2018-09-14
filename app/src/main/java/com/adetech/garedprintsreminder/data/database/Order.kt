@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.data
+package com.adetech.garedprintsreminder.data.database
 
 
 
