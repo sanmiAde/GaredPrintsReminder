@@ -1,5 +1,6 @@
-package com.adetech.garedprintsreminder.ui
+package com.adetech.garedprintsreminder.ui.orders
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
+import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -58,7 +60,10 @@ class OrdersActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-
+            R.id.nav_settings -> {
+                intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui
+package com.adetech.garedprintsreminder.ui.orders
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
