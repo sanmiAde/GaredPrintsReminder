@@ -12,19 +12,24 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
+import com.adetech.garedprintsreminder.ui.BaseActivity
 import com.adetech.garedprintsreminder.ui.EditOrder.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class OrderGroupActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupListFragment.Contract {
+class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupListFragment.Contract {
+
+    override fun createFragment(): Fragment {
+        return OrderGroupListFragment.newInstance()
+    }
+
+    override fun getLayoutResId(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initFragment(OrderGroupListFragment.newInstance())
         setSupportActionBar(toolbar)
-
         initDrawerLayout()
     }
 
@@ -89,13 +94,6 @@ class OrderGroupActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
     }
 
-
-    private fun initFragment(fragment: Fragment): Unit {
-
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
-            supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
-        }
-    }
 
     override fun addModel(order: Order?) {
 

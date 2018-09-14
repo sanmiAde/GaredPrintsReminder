@@ -5,12 +5,16 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
+import java.util.*
 
 class AddOrderFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val view: View = inflater.inflate(R.layout.fragment_new_order, container, false)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,17 +29,12 @@ class AddOrderFragment : Fragment() {
 
         private const val ARG_ID: String = "id"
 
-        fun newInstance(order: Order?): AddOrderFragment{
+        fun newInstance(id: UUID?): AddOrderFragment {
             val result = AddOrderFragment()
-            if(order != null){
-              val args: Bundle = Bundle()
-
-                args.putSerializable(ARG_ID, order.id)
-                result.arguments = args
-
-            }
-
-            return  result
+            val args: Bundle = Bundle()
+            args.putSerializable(ARG_ID, id)
+            result.arguments = args
+            return result
         }
     }
 }
