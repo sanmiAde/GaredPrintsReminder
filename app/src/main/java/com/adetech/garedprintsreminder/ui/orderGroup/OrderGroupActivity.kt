@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.orders
+package com.adetech.garedprintsreminder.ui.orderGroup
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,20 +11,24 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
+import com.adetech.garedprintsreminder.data.Order
+import com.adetech.garedprintsreminder.ui.EditOrder.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class OrderGroupActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupListFragment.Contract {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initFragment(OrdersListFragment.newInstance())
+        initFragment(OrderGroupListFragment.newInstance())
         setSupportActionBar(toolbar)
 
-//
+        initDrawerLayout()
+    }
 
+    private fun initDrawerLayout() {
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -64,6 +68,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent = Intent(this, SettingsActivity::class.java)
                 startActivity(intent)
             }
+            R.id.nav_home ->{
+                replaceFragment(OrderGroupListFragment.newInstance())
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -75,10 +82,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun replaceFragment(fragment: Fragment): Unit {
 
-        if (supportFragmentManager.findFragmentById(R.id.fragment_container)::class.simpleName == fragment::class.simpleName) {
-            Toast.makeText(this, fragment::class.java.simpleName, Toast.LENGTH_SHORT).show()
-        } else {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+        when {
+            supportFragmentManager.findFragmentById(R.id.fragment_container)::class.simpleName == fragment::class.simpleName -> Toast.makeText(this, fragment::class.java.simpleName, Toast.LENGTH_SHORT).show()
+            else -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
         }
 
     }
@@ -89,5 +95,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
         }
+    }
+
+    override fun addModel(order: Order?) {
+
+        startActivity( AddOrderActivity.newInstance(this,  null))
     }
 }
