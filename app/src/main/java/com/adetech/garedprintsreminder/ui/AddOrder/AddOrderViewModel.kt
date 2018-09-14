@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.EditOrder
+package com.adetech.garedprintsreminder.ui.AddOrder
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel

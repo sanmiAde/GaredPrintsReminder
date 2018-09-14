@@ -6,14 +6,13 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.ui.BaseActivity
-import com.adetech.garedprintsreminder.ui.EditOrder.AddOrderActivity
+import com.adetech.garedprintsreminder.ui.AddOrder.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*

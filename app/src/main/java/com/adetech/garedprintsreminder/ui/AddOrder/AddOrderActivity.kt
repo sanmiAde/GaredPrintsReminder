@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.EditOrder
+package com.adetech.garedprintsreminder.ui.AddOrder
 
 import android.content.Context
 import android.content.Intent
@@ -31,12 +31,12 @@ class AddOrderActivity : BaseActivity() {
         private const val ARG_ID: String = "com.adetech.garedprintsreminder.ui.orderGroup.OrderGroupActivity.id"
         //Todo change parameter to id
         //Todo implement app_bar_main
-        fun newInstance(context: Context, order: Order?): Intent{
+        fun newInstance(context: Context, order: Order?): Intent {
             val intent: Intent = Intent(context, AddOrderActivity::class.java)
-            if(order != null){
+            if (order != null) {
                 intent.putExtra(ARG_ID, order.id)
             }
-            return  intent
+            return intent
         }
     }
 }

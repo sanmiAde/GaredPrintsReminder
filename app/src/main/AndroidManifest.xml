@@ -27,7 +27,8 @@
 
         </activity>
 
-        <activity android:name=".ui.EditOrder.AddOrderActivity"
+        <activity
+            android:name=".ui.AddOrder.AddOrderActivity"
             android:parentActivityName=".ui.orderGroup.OrderGroupActivity"/>
     </application>
 
