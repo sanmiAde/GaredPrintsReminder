@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:launchMode="singleTop"
-            android:name=".ui.orders.MainActivity"
+            android:name=".ui.orderGroup.OrderGroupActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,11 +21,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:parentActivityName=".ui.orders.MainActivity"
+            android:parentActivityName=".ui.orderGroup.OrderGroupActivity"
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings">
 
         </activity>
+
+        <activity android:name=".ui.EditOrder.AddOrderActivity"
+            android:parentActivityName=".ui.orderGroup.OrderGroupActivity"/>
     </application>
 
 </manifest>
