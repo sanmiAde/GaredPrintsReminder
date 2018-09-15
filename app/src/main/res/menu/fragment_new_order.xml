@@ -5,7 +5,6 @@
     <item
         android:id="@+id/id_save_order"
         android:checkable="false"
-        android:icon="@drawable/ic_icons8_settings_1"
-        android:title="Item"
+        android:icon="@drawable/ic_checkmark"
         app:showAsAction="always" />
 </menu>

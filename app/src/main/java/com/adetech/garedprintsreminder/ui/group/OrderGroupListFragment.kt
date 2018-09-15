@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import kotlinx.android.synthetic.main.fragment_list_orders.*
+import java.util.*
 
 class OrderGroupListFragment : Fragment() {
 
@@ -32,8 +33,8 @@ class OrderGroupListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        orderGroupListViewModel.getOrders().observe(activity!!, Observer { order: List<Order>? ->
-            text.text = order?.last().toString()
+        orderGroupListViewModel.getOrders()?.observe(activity!!, Observer { order: Map<Date, Int>? ->
+            text.text = order?.toString()
             Log.d(orderGroupFragment, order.toString())
         })
         //Create new order. Null parameter is used to determine if a new order is to be created or a an order is to be created.
