@@ -4,7 +4,7 @@ import android.arch.persistence.room.*
 import android.content.Context
 
 @Database(entities = [Order::class], version = 1)
-@TypeConverters(DateConverter::class)
+@TypeConverters(DateConverter::class, UUIDConverter::class)
 abstract class OrderRoomDatabase: RoomDatabase() {
     abstract  fun orderDao(): OrderDao
 

@@ -17,3 +17,17 @@ object DateConverter {
         return date?.time
     }
 }
+
+object UUIDConverter {
+    @TypeConverter
+    @JvmStatic
+    fun fromUUIDToString(value: UUID?): String? {
+        return value?.toString()
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromStringToUUID(value: String?): UUID? {
+        return UUID.fromString(value)
+    }
+}

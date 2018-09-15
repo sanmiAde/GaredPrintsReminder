@@ -10,27 +10,26 @@ import com.adetech.garedprintsreminder.ui.BaseActivity
 import java.util.*
 
 class AddOrderActivity : BaseActivity() {
-    override fun createFragment(): Fragment {
-        val orderId = intent.getSerializableExtra(ARG_ID)
-                ?: return AddOrderFragment.newInstance(null)
 
-        return AddOrderFragment.newInstance(orderId as UUID)
+    override fun createFragment(): Fragment {
+        val orderId = intent.getIntExtra(ARG_ID, 0)
+        return AddOrderFragment.newInstance(orderId)
 
     }
 
     override fun getLayoutResId(): Int {
-        return R.layout.fragment
+        return R.layout.fragment_activity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment)
+        setContentView(R.layout.fragment_activity)
     }
 
     companion object {
-        private const val ARG_ID: String = "com.adetech.garedprintsreminder.ui.orderGroup.OrderGroupActivity.id"
-        //Todo change parameter to id
-        //Todo implement app_bar_main
+
+        private const val ARG_ID: String = "com.adetech.garedprintsreminder.ui.orderGroup.OrderGroupActivity.uuid"
+        //Add order activity will be used for editing order and creating new order.
         fun newInstance(context: Context, order: Order?): Intent {
             val intent: Intent = Intent(context, AddOrderActivity::class.java)
             if (order != null) {

@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragment() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            addPreferencesFromResource(R.xml.preference)
+            addPreferencesFromResource(R.xml.pref)
 
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_alarm_time"))
@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
         companion object {
 
             /**
-             * A preference value change listener that updates the preference's summary
+             * A pref value change listener that updates the pref's summary
              * to reflect its new value.
              */
             private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
@@ -39,7 +39,7 @@ class SettingsActivity : AppCompatActivity() {
 
                 if (preference is ListPreference) {
                     // For list preferences, look up the correct display value in
-                    // the preference's 'entries' list.
+                    // the pref's 'entries' list.
                     val listPreference = preference
                     val index = listPreference.findIndexOfValue(stringValue)
 
@@ -89,11 +89,11 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             /**
-             * Binds a preference's summary to its value. More specifically, when the
-             * preference's value is changed, its summary (line of text below the
-             * preference title) is updated to reflect the value. The summary is also
+             * Binds a pref's summary to its value. More specifically, when the
+             * pref's value is changed, its summary (line of text below the
+             * pref title) is updated to reflect the value. The summary is also
              * immediately updated upon calling this method. The exact display format is
-             * dependent on the type of preference.
+             * dependent on the type of pref.
 
              * @see .sBindPreferenceSummaryToValueListener
              */
@@ -101,7 +101,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Set the listener to watch for value changes.
                 preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
 
-                // Trigger the listener immediately with the preference's
+                // Trigger the listener immediately with the pref's
                 // current value.
                 sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                         PreferenceManager

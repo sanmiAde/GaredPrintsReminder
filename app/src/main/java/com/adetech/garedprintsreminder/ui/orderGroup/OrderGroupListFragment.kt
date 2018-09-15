@@ -22,6 +22,7 @@ class OrderGroupListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Create new order. Null parameter is used to determine if a new order is to be created or a an order is to be created.
         fab.setOnClickListener {
             (activity as Contract).addModel(null)
         }
