@@ -59,6 +59,7 @@ class AddOrderFragment : Fragment() {
         val name: String = name_editTxt.text.toString()
         val orderSize: Int = order_edit_txt.text.toString().toInt()
         val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        //TODO add price settings.
         val jobPrice: Double = sharedPref?.getString(getString(R.string.number_of_orders), getString(R.string.pref_default_max_order))!!.toDouble()
         val totalPrice: Double = jobPrice * orderSize
 
@@ -75,7 +76,7 @@ class AddOrderFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        addOrderViewModel = ViewModelProviders.of(this).get(AddOrderViewModel::class.java)
+        addOrderViewModel = ViewModelProviders.of(activity!!).get(AddOrderViewModel::class.java)
 
     }
 

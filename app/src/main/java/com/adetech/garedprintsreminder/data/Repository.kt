@@ -35,7 +35,7 @@ class Repository(application: Application, private val appExecutors: AppExecutor
         appExecutors.diskIO().execute { orderDao.deleteOrder(order) }
     }
 
-    fun getOrder(id: UUID) {
+    fun getOrder(id: Int) {
         appExecutors.diskIO().execute { orderDao.getOrder(id) }
     }
 

@@ -12,7 +12,7 @@ interface OrderDao {
     fun getOrders(): LiveData<List<Order>>
 
     @Query("SELECT * FROM order_table WHERE id =:id")
-    fun getOrder(id: UUID): Order
+    fun getOrder(id: Int): Order
 
     @Insert
     fun insert(order: Order)

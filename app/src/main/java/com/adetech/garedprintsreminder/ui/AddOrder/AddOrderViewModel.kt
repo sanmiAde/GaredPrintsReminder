@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import com.adetech.garedprintsreminder.data.Repository
 import com.adetech.garedprintsreminder.data.database.Order
-import java.util.*
+
 
 class AddOrderViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,7 +18,7 @@ class AddOrderViewModel(application: Application) : AndroidViewModel(application
         repository.updateOrder(order)
     }
 
-    fun getOrder(id: UUID) {
+    fun getOrder(id: Int) {
         repository.getOrder(id)
     }
 
