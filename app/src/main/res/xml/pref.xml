@@ -12,11 +12,13 @@
             android:title="@string/pref_title_max_order" />
 
         <EditTextPreference
-            android:defaultValue="price"
-            android:key="edit_text_preference_1"
+            android:defaultValue="@string/pref_default_price"
+            android:inputType="numberSigned"
+            android:key="@string/price_of_job"
+            android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="Edit text preference" />
+            android:title="@string/pref_title_price" />
 
     </PreferenceCategory>
 

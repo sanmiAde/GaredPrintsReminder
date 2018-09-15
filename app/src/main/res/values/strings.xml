@@ -20,6 +20,8 @@
     <string name="pref_title_max_order">Maximum order per day</string>
     <string name="pref_default_max_order">10</string>
 
+    <string name="pref_title_price">Price</string>
+    <string name="pref_default_price">100</string>
 
     <!-- Example settings for Data & Sync -->
     <string-array name="list_preference_entries">
@@ -50,6 +52,7 @@
 
     <string name="pref_title_alarm_time">Reminder time</string>
     <string name="number_of_orders">number_of_orders</string>
+    <string name="price_of_job">price_of_job</string>
     <string-array name="pref_sync_alarm_entries">
         <item>2 hours </item>
         <item>4 hours </item>

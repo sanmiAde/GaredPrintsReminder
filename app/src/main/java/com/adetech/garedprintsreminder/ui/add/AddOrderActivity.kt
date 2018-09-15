@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.AddOrder
+package com.adetech.garedprintsreminder.ui.add
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.ui.BaseActivity
-import java.util.*
 
 class AddOrderActivity : BaseActivity() {
 

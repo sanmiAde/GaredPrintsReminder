@@ -1,21 +1,21 @@
-package com.adetech.garedprintsreminder.ui.orderGroup
+package com.adetech.garedprintsreminder.ui.group
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
-import com.adetech.garedprintsreminder.ui.AddOrder.AddOrderViewModel
 import kotlinx.android.synthetic.main.fragment_list_orders.*
 
 class OrderGroupListFragment : Fragment() {
 
     private lateinit var orderGroupListViewModel: OrderGroupListViewModel
+    private val orderGroupFragment: String = "orderGroupFragment"
 
     interface  Contract {
         fun addModel(order: Order?)
@@ -32,13 +32,14 @@ class OrderGroupListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        orderGroupListViewModel.getOrders().observe(activity!!, Observer { order: List<Order>? ->
+            text.text = order?.last().toString()
+            Log.d(orderGroupFragment, order.toString())
+        })
         //Create new order. Null parameter is used to determine if a new order is to be created or a an order is to be created.
         fab.setOnClickListener {
             (activity as Contract).addModel(null)
         }
-
-        orderGroupListViewModel.getOrders().observe(activity!!, Observer { order: List<Order>? -> text.append(order?.last().toString()) })
     }
 
     private fun initViewModel() {

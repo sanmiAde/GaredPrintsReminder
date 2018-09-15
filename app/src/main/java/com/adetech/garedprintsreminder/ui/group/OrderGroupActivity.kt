@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.orderGroup
+package com.adetech.garedprintsreminder.ui.group
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import android.widget.Toast
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.ui.BaseActivity
-import com.adetech.garedprintsreminder.ui.AddOrder.AddOrderActivity
+import com.adetech.garedprintsreminder.ui.add.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*

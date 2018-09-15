@@ -8,7 +8,7 @@ import java.util.*
 @Dao
 interface OrderDao {
 
-    @Query("SELECT * FROM order_table ORDER BY name ASC")
+    @Query("SELECT * FROM order_table ORDER BY id ASC")
     fun getOrders(): LiveData<List<Order>>
 
     @Query("SELECT * FROM order_table WHERE id =:id")

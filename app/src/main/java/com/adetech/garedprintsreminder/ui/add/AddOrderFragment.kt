@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.AddOrder
+package com.adetech.garedprintsreminder.ui.add
 
 
 import android.arch.lifecycle.ViewModelProviders
@@ -54,17 +54,17 @@ class AddOrderFragment : Fragment() {
     }
 
     private fun updateDatabase() {
-        val isNameTxtEmpty: Boolean = !TextUtils.isEmpty(name_editTxt.text)
-        val isOrderSizeEmpty: Boolean = !TextUtils.isEmpty(order_edit_txt.text)
+        val isNameTxtEmpty: Boolean = TextUtils.isEmpty(name_editTxt.text)
+        val isOrderSizeEmpty: Boolean = TextUtils.isEmpty(order_edit_txt.text)
         val name: String = name_editTxt.text.toString()
         val orderSize: Int = order_edit_txt.text.toString().toInt()
         val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
         //TODO add price settings.
-        val jobPrice: Double = sharedPref?.getString(getString(R.string.number_of_orders), getString(R.string.pref_default_max_order))!!.toDouble()
+        val jobPrice: Double = sharedPref?.getString(getString(R.string.price_of_job), getString(R.string.pref_default_price))!!.toDouble()
         val totalPrice: Double = jobPrice * orderSize
 
         when {
-            isNameTxtEmpty && isOrderSizeEmpty -> {
+            !isNameTxtEmpty && !isOrderSizeEmpty -> {
                 val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = Date())
                 addOrderViewModel.insertOrder(newOrder)
 //                when (activity?.parent) {

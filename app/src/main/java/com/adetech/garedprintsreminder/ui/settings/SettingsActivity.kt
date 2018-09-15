@@ -26,6 +26,7 @@ class SettingsActivity : AppCompatActivity() {
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_alarm_time"))
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("number_of_orders"))
+            SettingsFragment.bindPreferenceSummaryToValue(findPreference("price_of_job"))
         }
 
         companion object {
@@ -40,13 +41,12 @@ class SettingsActivity : AppCompatActivity() {
                 if (preference is ListPreference) {
                     // For list preferences, look up the correct display value in
                     // the pref's 'entries' list.
-                    val listPreference = preference
-                    val index = listPreference.findIndexOfValue(stringValue)
+                    val index = preference.findIndexOfValue(stringValue)
 
                     // Set the summary to reflect the new value.
                     preference.setSummary(
                             if (index >= 0)
-                                listPreference.entries[index]
+                                preference.entries[index]
                             else
                                 null)
 
