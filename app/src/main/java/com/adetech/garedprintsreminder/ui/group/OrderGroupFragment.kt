@@ -12,9 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
-import kotlinx.android.synthetic.main.actitvity_recyclerview.*
+import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
 import kotlinx.android.synthetic.main.fragment_list_orders_group.*
-import java.util.*
 
 class OrderGroupFragment : Fragment() {
 
@@ -42,7 +41,8 @@ class OrderGroupFragment : Fragment() {
 
         val adapter: OrderGroupAdapter = setupRecyclerView()
 
-        orderGroupListViewModel.getOrderGroupedByDate().observe(activity!!, Observer { it ->
+        orderGroupListViewModel.getOrderGroupedByDate().observe(activity!!, Observer { it: List<OrderGroupedByDate>? ->
+            adapter.setOrder(it)
             Log.d(orderGroupFragment, it.toString())
         })
 
@@ -59,10 +59,8 @@ class OrderGroupFragment : Fragment() {
 
     private fun setupRecyclerView(): OrderGroupAdapter {
         val adapter = OrderGroupAdapter(activity!!)
-
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
-
         return adapter
     }
 
