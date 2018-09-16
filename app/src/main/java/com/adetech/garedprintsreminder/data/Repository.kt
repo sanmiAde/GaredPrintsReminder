@@ -2,11 +2,13 @@ package com.adetech.garedprintsreminder.data
 
 import android.app.Application
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.os.AsyncTask
 import com.adetech.garedprintsreminder.AppExecutors
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderDao
+import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
 import com.adetech.garedprintsreminder.data.database.OrderRoomDatabase
-import java.util.*
 
 class Repository(application: Application, private val appExecutors: AppExecutors) {
     private val orderDao: OrderDao
@@ -37,6 +39,17 @@ class Repository(application: Application, private val appExecutors: AppExecutor
 
     fun getOrder(id: Int) {
         appExecutors.diskIO().execute { orderDao.getOrder(id) }
+    }
+
+    fun getOrderGroupedByDate(): LiveData<List<OrderGroupedByDate>> {
+        return GetOrdeGroupedByDate(orderDao).doInBackground()
+    }
+
+    class GetOrdeGroupedByDate(private val dao: OrderDao) : AsyncTask<Void, Void, LiveData<List<OrderGroupedByDate>>>() {
+        public override fun doInBackground(vararg p0: Void?): LiveData<List<OrderGroupedByDate>> {
+            return dao.getOrdeGroupByDate()
+        }
+
     }
 
     companion object {

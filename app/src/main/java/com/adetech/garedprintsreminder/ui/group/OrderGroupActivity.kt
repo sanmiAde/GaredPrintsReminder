@@ -17,10 +17,10 @@ import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupListFragment.Contract {
+class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract {
 
     override fun createFragment(): Fragment {
-        return OrderGroupListFragment.newInstance()
+        return OrderGroupFragment.newInstance()
     }
 
     override fun getLayoutResId(): Int = R.layout.activity_main
@@ -73,7 +73,7 @@ class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
                 startActivity(intent)
             }
             R.id.nav_home ->{
-                replaceFragment(OrderGroupListFragment.newInstance())
+                replaceFragment(OrderGroupFragment.newInstance())
             }
         }
 

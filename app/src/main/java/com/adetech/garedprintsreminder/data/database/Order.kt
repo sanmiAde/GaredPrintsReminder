@@ -24,4 +24,5 @@ data class Order(
         val totalPrice: Double = 0.0,
         val dueDate: Date)
 
+data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: Date)
 
