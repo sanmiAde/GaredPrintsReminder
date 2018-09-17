@@ -11,6 +11,8 @@ import android.view.*
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import kotlinx.android.synthetic.main.fragment_new_order.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddOrderFragment : Fragment() {
@@ -54,18 +56,36 @@ class AddOrderFragment : Fragment() {
     }
 
     private fun updateDatabase() {
-        val isNameTxtEmpty: Boolean = TextUtils.isEmpty(name_editTxt.text)
-        val isOrderSizeEmpty: Boolean = TextUtils.isEmpty(order_edit_txt.text)
-        val name: String = name_editTxt.text.toString()
-        val orderSize: Int = order_edit_txt.text.toString().toInt()
-        val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        //TODO add price settings.
-        val jobPrice: Double = sharedPref?.getString(getString(R.string.price_of_job), getString(R.string.pref_default_price))!!.toDouble()
-        val totalPrice: Double = jobPrice * orderSize
+        fun isTextEmpty(): Pair<Boolean, Boolean> {
+            val isNameTxtEmpty: Boolean = TextUtils.isEmpty(name_editTxt.text)
+            val isOrderSizeEmpty: Boolean = TextUtils.isEmpty(order_edit_txt.text)
+            return Pair(isNameTxtEmpty, isOrderSizeEmpty)
+        }
+        val (isNameTxtEmpty: Boolean, isOrderSizeEmpty: Boolean) = isTextEmpty()
+
+        fun getUserdata(): Triple<String, Int, Double> {
+            val name: String = name_editTxt.text.toString()
+            val orderSize: Int = order_edit_txt.text.toString().toInt()
+            val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+            //TODO add price settings.
+            val jobPrice: Double = sharedPref?.getString(getString(R.string.price_of_job), getString(R.string.pref_default_price))!!.toDouble()
+            val totalPrice: Double = jobPrice * orderSize
+            return Triple(name, orderSize, totalPrice)
+        }
+
+        val (name: String, orderSize: Int, totalPrice: Double) = getUserdata()
 
         when {
             !isNameTxtEmpty && !isOrderSizeEmpty -> {
-                val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = Date())
+                fun formatDate(): String {
+                    val date = Date()
+                    val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy") as DateFormat
+                    val currentDate: String = dateFormat.format(date)
+                    return currentDate
+                }
+
+                val currentDate: String = formatDate()
+                val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
                 addOrderViewModel.insertOrder(newOrder)
 //                when (activity?.parent) {
 //                    null -> activity?.setResult(Activity.RESULT_OK, replyIntent)

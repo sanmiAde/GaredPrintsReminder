@@ -25,12 +25,12 @@ class OrderGroupModel(application: Application) : AndroidViewModel(application) 
      * @return LiveData<Map<Date, Int>>
      *
      */
-    private fun convertToMap(orders: List<Order>?): LiveData<Map<Date, Int>> {
-        val mutableLiveData = MutableLiveData<Map<Date, Int>>()
-        mutableLiveData.value = orders?.map { it.dueDate to it.quantity }?.toMap()
-
-        return mutableLiveData
-    }
+//    private fun convertToMap(orders: List<Order>?): LiveData<Map<Date, Int>> {
+//        val mutableLiveData = MutableLiveData<Map<Date, Int>>()
+//        mutableLiveData.value = orders?.map { it.dueDate to it.quantity }?.toMap()
+//
+//        return mutableLiveData
+//    }
 }
 
 

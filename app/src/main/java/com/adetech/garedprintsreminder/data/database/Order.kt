@@ -22,7 +22,7 @@ data class Order(
         val name: String,
         val quantity: Int,
         val totalPrice: Double = 0.0,
-        val dueDate: Date)
+        val dueDate: String)
 
-data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: Date)
+data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: String)
 

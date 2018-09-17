@@ -19,7 +19,7 @@ class OrderGroupFragment : Fragment() {
 
     private lateinit var orderGroupListViewModel: OrderGroupModel
     private lateinit var recyclerView: RecyclerView
-    private val orderGroupFragment: String = "orderGroupFragment"
+    private val TAG: String = this::class.java.simpleName
 
     interface  Contract {
         fun addModel(order: Order?)
@@ -32,18 +32,18 @@ class OrderGroupFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.fragment_list_orders_group, container, false)
-        recyclerView = view.findViewById(R.id.recycler_view)
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerView = view.findViewById(R.id.recycler_view)
         val adapter: OrderGroupAdapter = setupRecyclerView()
-
-        orderGroupListViewModel.getOrderGroupedByDate().observe(activity!!, Observer { it: List<OrderGroupedByDate>? ->
-            adapter.setOrder(it)
-            Log.d(orderGroupFragment, it.toString())
+        orderGroupListViewModel.getOrderGroupedByDate().observe(this, Observer { orders: List<OrderGroupedByDate>? ->
+            adapter.setOrder(orders)
+            Log.d(TAG, orders.toString())
         })
 
         //Create new order. Null parameter is used to determine if a new order is to be created or a an order is to be created.
@@ -53,7 +53,7 @@ class OrderGroupFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        orderGroupListViewModel = ViewModelProviders.of(activity!!).get(OrderGroupModel::class.java)
+        orderGroupListViewModel = ViewModelProviders.of(this).get(OrderGroupModel::class.java)
 
     }
 
