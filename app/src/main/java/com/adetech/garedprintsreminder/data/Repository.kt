@@ -44,9 +44,20 @@ class Repository(application: Application, private val appExecutors: AppExecutor
         return GetOrderGroupedByDate(orderDao).doInBackground()
     }
 
+    fun getOrderByDate(date: String): LiveData<List<Order>> {
+        return GetOrderByDate(orderDao).doInBackground(date)
+    }
+
     class GetOrderGroupedByDate(private val dao: OrderDao) : AsyncTask<Void, Void, LiveData<List<OrderGroupedByDate>>>() {
         public override fun doInBackground(vararg p0: Void?): LiveData<List<OrderGroupedByDate>> {
-            return dao.getOrdeGroupByDate()
+            return dao.getOrderGroupByDate()
+        }
+
+    }
+
+    class GetOrderByDate(private val dao: OrderDao) : AsyncTask<String, Void, LiveData<List<Order>>>() {
+        public override fun doInBackground(vararg date: String?): LiveData<List<Order>> {
+            return dao.getOrderByDate(date[0]!!)
         }
 
     }

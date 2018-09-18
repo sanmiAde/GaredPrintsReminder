@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.group
+package com.adetech.garedprintsreminder.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,13 +11,15 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
-import com.adetech.garedprintsreminder.ui.BaseActivity
 import com.adetech.garedprintsreminder.ui.add.AddOrderActivity
+import com.adetech.garedprintsreminder.ui.group.OrderGroupFragment
+import com.adetech.garedprintsreminder.ui.list.OrderListFragment
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract {
+class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract {
+
 
     override fun createFragment(): Fragment {
         return OrderGroupFragment.newInstance()
@@ -88,7 +90,7 @@ class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
 
         when {
             supportFragmentManager.findFragmentById(R.id.fragment_container)::class.simpleName == fragment::class.simpleName -> Toast.makeText(this, fragment::class.java.simpleName, Toast.LENGTH_SHORT).show()
-            else -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit()
+            else -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
         }
 
     }
@@ -97,5 +99,9 @@ class OrderGroupActivity : BaseActivity(), NavigationView.OnNavigationItemSelect
     override fun addModel(order: Order?) {
 
         startActivity( AddOrderActivity.newInstance(this,  null))
+    }
+
+    override fun listModelByDate(date: String?) {
+        replaceFragment(OrderListFragment.newInstance(date))
     }
 }

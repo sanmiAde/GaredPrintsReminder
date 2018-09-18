@@ -27,7 +27,7 @@ class AddOrderActivity : BaseActivity() {
 
     companion object {
 
-        private const val ARG_ID: String = "com.adetech.garedprintsreminder.ui.orderGroup.OrderGroupActivity.uuid"
+        private const val ARG_ID: String = "com.adetech.garedprintsreminder.ui.orderGroup.OrderActivity.uuid"
         //Add order activity will be used for editing order and creating new order.
         fun newInstance(context: Context, order: Order?): Intent {
             val intent: Intent = Intent(context, AddOrderActivity::class.java)

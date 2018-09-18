@@ -13,9 +13,12 @@ import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
-import kotlinx.android.synthetic.main.fragment_list_orders_group.*
+import kotlinx.android.synthetic.main.fragment_orders_group.*
 
-class OrderGroupFragment : Fragment() {
+class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
+    override fun onItemClick(date: String?) {
+        (activity as Contract).listModelByDate(date)
+    }
 
     private lateinit var orderGroupListViewModel: OrderGroupModel
     private lateinit var recyclerView: RecyclerView
@@ -23,7 +26,9 @@ class OrderGroupFragment : Fragment() {
 
     interface  Contract {
         fun addModel(order: Order?)
+        fun listModelByDate(date: String?)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +36,7 @@ class OrderGroupFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_list_orders_group, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_orders_list, container, false)
 
         return view
     }
@@ -58,7 +63,7 @@ class OrderGroupFragment : Fragment() {
     }
 
     private fun setupRecyclerView(): OrderGroupAdapter {
-        val adapter = OrderGroupAdapter(activity!!)
+        val adapter = OrderGroupAdapter(activity!!, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
         return adapter

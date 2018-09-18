@@ -9,14 +9,18 @@ import android.widget.TextView
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
 
-class OrderGroupAdapter(context: Context) : RecyclerView.Adapter<OrderGroupAdapter.OrderViewHolder>() {
+class OrderGroupAdapter(context: Context, val clickhandler: onItemClickhandler) : RecyclerView.Adapter<OrderGroupAdapter.OrderViewHolder>() {
+
+    interface onItemClickhandler {
+        fun onItemClick(date: String?)
+    }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var orders: List<OrderGroupedByDate>? = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
-        val itemview: View = inflater.inflate(R.layout.fragment_list_order_item, parent, false)
-        return OrderViewHolder(itemview)
+        val itemViev: View = inflater.inflate(R.layout.fragment_order_item, parent, false)
+        return OrderViewHolder(itemViev)
     }
 
     fun setOrder(order: List<OrderGroupedByDate>?) {
@@ -32,7 +36,19 @@ class OrderGroupAdapter(context: Context) : RecyclerView.Adapter<OrderGroupAdapt
         holder.dueDate.text = orders?.get(position)?.dueDate.toString()
     }
 
-    class OrderViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
+
+    inner class OrderViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview), View.OnClickListener {
+        override fun onClick(view: View?) {
+            val position: Int = adapterPosition
+            val date: String? = orders?.get(position)?.dueDate
+
+            clickhandler.onItemClick(date)
+        }
+
+
+        init {
+            itemView.setOnClickListener(this)
+        }
         val orderQuantity: TextView = itemview.findViewById(R.id.order_quantity_txt)
         val dueDate: TextView = itemview.findViewById(R.id.due_date_txt)
     }
