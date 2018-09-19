@@ -15,22 +15,17 @@ class OrderGroupModel(application: Application) : AndroidViewModel(application) 
 
     private val repository: Repository = Repository.getDatabase(application)
 
+    /**
+     * Gets order grouped by date.
+     * @return Livedata containing list of orderGroupedByDate objects.
+     */
     fun getOrderGroupedByDate(): LiveData<List<OrderGroupedByDate>> {
         return repository.getOrderGroupedByDate()
     }
 
-    /**
-     * Transforms list to hashmap for order group screen
-     * @param order Total order in database
-     * @return LiveData<Map<Date, Int>>
-     *
-     */
-//    private fun convertToMap(orders: List<Order>?): LiveData<Map<Date, Int>> {
-//        val mutableLiveData = MutableLiveData<Map<Date, Int>>()
-//        mutableLiveData.value = orders?.map { it.dueDate to it.quantity }?.toMap()
-//
-//        return mutableLiveData
-//    }
+    fun deleteOrderByDate(date: String) {
+        repository.deleteOrderByDate(date)
+    }
 }
 
 

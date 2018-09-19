@@ -9,10 +9,14 @@ import android.widget.TextView
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
 
-class OrderGroupAdapter(context: Context, val clickhandler: onItemClickhandler) : RecyclerView.Adapter<OrderGroupAdapter.OrderViewHolder>() {
+class OrderGroupAdapter(context: Context, val clickhandler: OnItemClickHandler, val longClickHandler: OnItemLongClickHandler) : RecyclerView.Adapter<OrderGroupAdapter.OrderViewHolder>() {
 
-    interface onItemClickhandler {
+    interface OnItemClickHandler {
         fun onItemClick(date: String?)
+    }
+
+    interface OnItemLongClickHandler {
+        fun onLongClick(date: String?)
     }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -37,19 +41,29 @@ class OrderGroupAdapter(context: Context, val clickhandler: onItemClickhandler) 
     }
 
 
-    inner class OrderViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview), View.OnClickListener {
+    inner class OrderViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview), View.OnClickListener, View.OnLongClickListener {
+        init {
+            itemView.setOnClickListener(this)
+            itemview.setOnLongClickListener(this)
+        }
+        val orderQuantity: TextView = itemview.findViewById(R.id.order_quantity_txt)
+        val dueDate: TextView = itemview.findViewById(R.id.due_date_txt)
+
         override fun onClick(view: View?) {
             val position: Int = adapterPosition
             val date: String? = orders?.get(position)?.dueDate
 
             clickhandler.onItemClick(date)
+
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            val date: String? = orders?.get(adapterPosition)?.dueDate
+            longClickHandler.onLongClick(date)
+
+            return true
         }
 
 
-        init {
-            itemView.setOnClickListener(this)
-        }
-        val orderQuantity: TextView = itemview.findViewById(R.id.order_quantity_txt)
-        val dueDate: TextView = itemview.findViewById(R.id.due_date_txt)
     }
 }

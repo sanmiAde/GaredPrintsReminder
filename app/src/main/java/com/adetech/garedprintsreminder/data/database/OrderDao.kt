@@ -20,8 +20,8 @@ interface OrderDao {
     @Update(onConflict=OnConflictStrategy.ROLLBACK)
     fun update(order: Order)
 
-//    @Delete
-//    fun deleteAll()
+    @Query("DELETE fROM order_table WHERE dueDate =:date")
+    fun deleteOrderBydate(date: String)
 
     @Delete
     fun deleteOrder(order: Order)

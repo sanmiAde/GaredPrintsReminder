@@ -13,10 +13,15 @@ import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
+import com.adetech.garedprintsreminder.ui.utils.completeOrderDialog
 import kotlinx.android.synthetic.main.fragment_orders_group.*
 
 
-class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
+class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, OrderGroupAdapter.OnItemLongClickHandler {
+    override fun onLongClick(date: String?) {
+        completeOrderDialog("Orders completed", "Orders deleted", activity!!) { orderGroupListViewModel.deleteOrderByDate(date!!) }
+    }
+
     override fun onItemClick(date: String?) {
         (activity as Contract).listModelByDate(date)
     }
@@ -25,7 +30,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
     private lateinit var recyclerView: RecyclerView
     private val TAG: String = this::class.java.simpleName
 
-    interface  Contract {
+    interface Contract {
         fun addModel(order: Order?)
         fun listModelByDate(date: String?)
     }
@@ -65,7 +70,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
     }
 
     private fun setupRecyclerView(): OrderGroupAdapter {
-        val adapter = OrderGroupAdapter(activity!!, this)
+        val adapter = OrderGroupAdapter(activity!!, this, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
         return adapter

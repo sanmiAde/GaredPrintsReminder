@@ -2,10 +2,8 @@ package com.adetech.garedprintsreminder.ui.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -14,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
+import com.adetech.garedprintsreminder.ui.utils.completeOrderDialog
 
 
 class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler {
@@ -24,14 +23,10 @@ class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler {
     private val TAG: String = this::class.java.simpleName
 
     override fun onItemLongClick(order: Order) {
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
-
-        alertDialogBuilder.setTitle("Order completed")
-        alertDialogBuilder.setPositiveButton("Yes") { _, _ -> orderListViewModel.completeOrder(order) }.setNegativeButton("No") { dialogInterface: DialogInterface?, _: Int -> dialogInterface?.cancel() }
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
+        completeOrderDialog("Order completed", "Order deleted", activity!!) { orderListViewModel.completeOrder(order) }
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

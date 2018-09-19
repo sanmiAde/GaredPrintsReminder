@@ -40,6 +40,10 @@ class Repository(application: Application, private val appExecutors: AppExecutor
         appExecutors.diskIO().execute { orderDao.getOrder(id) }
     }
 
+    fun deleteOrderByDate(date: String) {
+        appExecutors.diskIO().execute { orderDao.deleteOrderBydate(date) }
+    }
+
     fun getOrderGroupedByDate(): LiveData<List<OrderGroupedByDate>> {
         return GetOrderGroupedByDate(orderDao).doInBackground()
     }
