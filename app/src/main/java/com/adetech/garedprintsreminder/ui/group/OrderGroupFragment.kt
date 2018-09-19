@@ -15,6 +15,7 @@ import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
 import kotlinx.android.synthetic.main.fragment_orders_group.*
 
+
 class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
     override fun onItemClick(date: String?) {
         (activity as Contract).listModelByDate(date)
@@ -36,7 +37,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_orders_list, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_orders_group, container, false)
 
         return view
     }
@@ -45,6 +46,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.onItemClickhandler {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView = view.findViewById(R.id.recycler_view)
+
         val adapter: OrderGroupAdapter = setupRecyclerView()
         orderGroupListViewModel.getOrderGroupedByDate().observe(this, Observer { orders: List<OrderGroupedByDate>? ->
             adapter.setOrder(orders)

@@ -14,4 +14,8 @@ class OrderListViewModel(application: Application) : AndroidViewModel(applicatio
         return repository.getOrderByDate(date)
     }
 
+    fun completeOrder(order: Order) {
+        repository.deleteOrder(order)
+    }
+
 }

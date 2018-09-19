@@ -2,8 +2,10 @@ package com.adetech.garedprintsreminder.ui.list
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -12,20 +14,28 @@ import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
-import com.adetech.garedprintsreminder.ui.group.OrderGroupModel
 
 
-class OrderListFragment : Fragment() {
+class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler {
 
     private lateinit var orderListViewModel: OrderListViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var date: String
     private val TAG: String = this::class.java.simpleName
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_orders_list, container, false)
+    override fun onItemLongClick(order: Order) {
+        val alertDialogBuilder = AlertDialog.Builder(activity!!)
 
-        return view
+        alertDialogBuilder.setTitle("Order completed")
+        alertDialogBuilder.setPositiveButton("Yes") { _, _ -> orderListViewModel.completeOrder(order) }.setNegativeButton("No") { dialogInterface: DialogInterface?, _: Int -> dialogInterface?.cancel() }
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        return inflater.inflate(R.layout.fragment_orders_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +63,7 @@ class OrderListFragment : Fragment() {
     }
 
     private fun setupRecyclerView(): OrderListAdapter {
-        val adapter = OrderListAdapter(activity!!)
+        val adapter = OrderListAdapter(activity!!, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
         return adapter
