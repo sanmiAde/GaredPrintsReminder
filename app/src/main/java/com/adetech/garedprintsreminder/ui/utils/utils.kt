@@ -17,7 +17,7 @@ fun completeOrderDialog(title: String, toastMessage: String, context: Context, c
     val alertDialogBuilder = AlertDialog.Builder(context)
 
     alertDialogBuilder.setTitle(title)
-    alertDialogBuilder.setPositiveButton("Yes") { _, _ -> completeOrder(); Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show() }.setNegativeButton("No") { dialogInterface: DialogInterface?, _: Int -> dialogInterface?.cancel() }
+    alertDialogBuilder.setPositiveButton("Yes") { dialogInterface, i -> completeOrder(); Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show() }.setNegativeButton("No") { dialogInterface: DialogInterface?, i: Int -> dialogInterface?.cancel() }
 
     val alertDialog: AlertDialog = alertDialogBuilder.create()
     alertDialog.show()

@@ -8,9 +8,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.*
+import android.widget.Button
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
-import kotlinx.android.synthetic.main.fragment_new_order.*
+import kotlinx.android.synthetic.main.fragment_add_order.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,8 +21,16 @@ class AddOrderFragment : Fragment() {
     private lateinit var addOrderViewModel: AddOrderViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_new_order, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_add_order, container, false)
 
+        val dueDateButton: Button = view.findViewById(R.id.due_date_picker)
+        dueDateButton.setOnClickListener {
+            val manager = fragmentManager
+            //Todo collect info from list screen
+            val dialog = DatePickerFragment.newInstance(Date())
+            dialog.setTargetFragment(AddOrderFragment@ this, REQUEST_DATE)
+            dialog.show(manager, DIALOG_DATE)
+        }
         return view
     }
 
@@ -48,6 +57,7 @@ class AddOrderFragment : Fragment() {
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.id_save_order -> {
+                //Use a fab button
                 updateDatabase()
                 return true
             }
@@ -104,6 +114,8 @@ class AddOrderFragment : Fragment() {
     companion object {
 
         private const val ARG_ID: String = "uuid"
+        private const val DIALOG_DATE = "DialogDate"
+        private const val REQUEST_DATE = 0
 
         fun newInstance(id: Int): AddOrderFragment {
             val result = AddOrderFragment()
