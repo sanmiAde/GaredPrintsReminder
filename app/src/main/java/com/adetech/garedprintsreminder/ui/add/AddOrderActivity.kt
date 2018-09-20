@@ -33,6 +33,7 @@ class AddOrderActivity : BaseActivity() {
             val intent: Intent = Intent(context, AddOrderActivity::class.java)
             if (order != null) {
                 intent.putExtra(ARG_ID, order.id)
+                intent.putExtra(ARG_ID, order)
             }
             return intent
         }
