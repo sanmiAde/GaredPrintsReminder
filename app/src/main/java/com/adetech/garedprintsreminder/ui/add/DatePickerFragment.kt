@@ -36,12 +36,12 @@ class DatePickerFragment : DialogFragment() {
         datePicker = view.findViewById(R.id.dialog_date_picker)
         datePicker.init(year, month, day, null)
 
-        return AlertDialog.Builder(activity!!).setView(view).setTitle(R.string.date_picker_title).setPositiveButton(android.R.string.ok) { dialogInterface, i ->
+        return AlertDialog.Builder(activity!!).setView(view).setPositiveButton(android.R.string.ok) { dialogInterface, i ->
             val dueYear: Int = datePicker.year
             val dueMonth: Int = datePicker.month
             val dueDay: Int = datePicker.dayOfMonth
 
-            val date: Date = GregorianCalendar(dueYear, dueMonth, dueMonth).time
+            val date: Date = GregorianCalendar(dueYear, dueMonth, dueDay).time
             sendResult(Activity.RESULT_OK, date)
         }.create()
     }

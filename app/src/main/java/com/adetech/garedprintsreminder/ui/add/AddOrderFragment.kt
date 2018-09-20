@@ -16,14 +16,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.app.Activity
 import android.content.Intent
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+
 
 
 class AddOrderFragment : Fragment() {
 
     private lateinit var addOrderViewModel: AddOrderViewModel
     private lateinit var order: Order
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,7 +53,7 @@ class AddOrderFragment : Fragment() {
         due_date_picker.setOnClickListener {
             val manager = fragmentManager
             //Todo collect info from list screen
-            val dialog = DatePickerFragment.newInstance(date)
+            val dialog = DatePickerFragment.newInstance(convertStringToDate(due_date_picker.text.toString())!!)
             dialog.setTargetFragment(AddOrderFragment@ this, REQUEST_DATE)
             dialog.show(manager, DIALOG_DATE)
         }
@@ -62,7 +62,7 @@ class AddOrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        val date: Date = initOrderData()
+        val date = initOrderData()
         //dueDateButton = view.findViewById(R.id.due_date_picker)
         initDatePicker(view, date)
     }
