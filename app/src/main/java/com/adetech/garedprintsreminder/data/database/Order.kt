@@ -4,6 +4,7 @@ package com.adetech.garedprintsreminder.data.database
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -22,7 +23,7 @@ data class Order(
         val name: String,
         val quantity: Int,
         val totalPrice: Double = 0.0,
-        val dueDate: String)
+        val dueDate: String) : Serializable
 
 data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: String)
 

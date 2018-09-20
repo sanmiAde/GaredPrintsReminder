@@ -11,8 +11,10 @@ import com.adetech.garedprintsreminder.ui.BaseActivity
 class AddOrderActivity : BaseActivity() {
 
     override fun createFragment(): Fragment {
-        val orderId = intent.getIntExtra(ARG_ID, 0)
-        return AddOrderFragment.newInstance(orderId)
+        //val orderId = intent.getIntExtra(ARG_ID, 0)
+        val order = intent.getSerializableExtra(ARG_ID) ?: return AddOrderFragment.newInstance(null)
+
+        return AddOrderFragment.newInstance(order as Order)
 
     }
 

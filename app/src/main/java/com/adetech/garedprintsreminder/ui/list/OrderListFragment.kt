@@ -12,21 +12,28 @@ import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
+import com.adetech.garedprintsreminder.ui.group.OrderGroupFragment
 import com.adetech.garedprintsreminder.ui.utils.completeOrderDialog
 
 
-class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler {
+class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler, OrderListAdapter.OnItemClickHandler {
 
     private lateinit var orderListViewModel: OrderListViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var date: String
     private val TAG: String = this::class.java.simpleName
 
+    interface Contract {
+        fun editModel(order: Order?)
+    }
+
     override fun onItemLongClick(order: Order) {
         completeOrderDialog("Order completed", "Order deleted", activity!!) { orderListViewModel.completeOrder(order) }
     }
 
-
+    override fun onClick(order: Order) {
+        (activity as OrderListFragment.Contract).editModel(order)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -58,7 +65,7 @@ class OrderListFragment : Fragment(), OrderListAdapter.OnLongClickHandler {
     }
 
     private fun setupRecyclerView(): OrderListAdapter {
-        val adapter = OrderListAdapter(activity!!, this)
+        val adapter = OrderListAdapter(activity!!, this, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
         return adapter

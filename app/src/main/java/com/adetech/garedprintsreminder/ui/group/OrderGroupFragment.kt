@@ -33,6 +33,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, Ord
     interface Contract {
         fun addModel(order: Order?)
         fun listModelByDate(date: String?)
+
     }
 
 

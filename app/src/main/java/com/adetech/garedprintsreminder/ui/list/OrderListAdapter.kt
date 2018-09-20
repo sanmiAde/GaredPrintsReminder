@@ -9,10 +9,14 @@ import android.widget.TextView
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 
-class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandler) : RecyclerView.Adapter<OrderListAdapter.OrderViewHolder>() {
+class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandler, val clickHanlder: OnItemClickHandler) : RecyclerView.Adapter<OrderListAdapter.OrderViewHolder>() {
 
     interface OnLongClickHandler {
         fun onItemLongClick(order: Order)
+    }
+
+    interface OnItemClickHandler {
+        fun onClick(order: Order)
     }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -35,10 +39,11 @@ class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandle
         notifyDataSetChanged()
     }
 
-    inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnLongClickListener {
+    inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnLongClickListener, View.OnClickListener {
 
         init {
             itemView.setOnLongClickListener(this)
+            itemView.setOnClickListener(this)
         }
         val name: TextView = itemView.findViewById(R.id.name_txt)
         val qauntity: TextView = itemView.findViewById(R.id.order_quantity_txt)
@@ -48,5 +53,11 @@ class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandle
             longClickHandler.onItemLongClick(order)
             return true
         }
+
+        override fun onClick(p0: View?) {
+            val order: Order = orders!![adapterPosition]
+            clickHanlder.onClick(order)
+        }
+
     }
 }

@@ -18,7 +18,7 @@ import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract {
+class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract, OrderListFragment.Contract {
 
 
     override fun createFragment(): Fragment {
@@ -97,11 +97,15 @@ class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
 
 
     override fun addModel(order: Order?) {
-
         startActivity( AddOrderActivity.newInstance(this,  null))
     }
 
     override fun listModelByDate(date: String?) {
         replaceFragment(OrderListFragment.newInstance(date))
     }
+
+    override fun editModel(order: Order?) {
+        startActivity(AddOrderActivity.newInstance(this, order))
+    }
+
 }
