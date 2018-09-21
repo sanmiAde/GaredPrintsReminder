@@ -124,17 +124,14 @@ class AddOrderFragment : Fragment() {
         return dateFormat.format(date)
     }
 
-    private fun convertStringToDate(date: String): Date? {
+    private fun convertStringToDate(date: String): Date {
         val formatter = SimpleDateFormat("dd/MM/yyyy")
         return formatter.parse(date)
     }
 
     private fun updateDatabase() {
-
         val (isNameTxtEmpty: Boolean, isOrderSizeEmpty: Boolean) = isTextEmpty()
-
         val (name: String, orderSize: Int, totalPrice: Double) = getUserdata()
-
         when {
             !isNameTxtEmpty && !isOrderSizeEmpty -> {
                 saveOrder(name, orderSize, totalPrice)
@@ -146,17 +143,22 @@ class AddOrderFragment : Fragment() {
         }
     }
 
+
     fun saveOrder(name: String, orderSize: Int, totalPrice: Double) {
         //TODO check is order aguement is null
+        val currentDate: String = formatDate(convertStringToDate(due_date_picker.text.toString()))
+        if (order == null) {
+            val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
+            addOrderViewModel.insertOrder(newOrder)
+        } else {
+            val updatedOrder = order.copy(name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
+            addOrderViewModel.updateOrder(updatedOrder)
+        }
         //if null insert oder else update order
-        val currentDate: String = formatDate(Date())
-        val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
-        addOrderViewModel.insertOrder(newOrder)
     }
 
     private fun initViewModel() {
         addOrderViewModel = ViewModelProviders.of(activity!!).get(AddOrderViewModel::class.java)
-
     }
 
     private fun updateDate(date: Date) {
@@ -164,7 +166,6 @@ class AddOrderFragment : Fragment() {
     }
 
     companion object {
-
         private const val ARG_ID: String = "uuid"
         private const val DIALOG_DATE = "DialogDate"
         private const val REQUEST_DATE = 0
