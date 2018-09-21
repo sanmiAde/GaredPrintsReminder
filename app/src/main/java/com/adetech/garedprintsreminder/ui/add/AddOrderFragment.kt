@@ -23,14 +23,10 @@ class AddOrderFragment : Fragment() {
 
     private lateinit var addOrderViewModel: AddOrderViewModel
     private lateinit var order: Order
+    private var shouldUpdate: Boolean = false
 
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_add_order, container, false)
-
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_add_order, container, false)
 
     private fun initOrderData(): Date {
         val serializedOrder = arguments?.getSerializable(ARG_ID)
@@ -43,6 +39,7 @@ class AddOrderFragment : Fragment() {
             date = convertStringToDate(order.dueDate)!!
             name_editTxt.setText(order.name)
             order_edit_txt.setText(order.quantity.toString())
+            shouldUpdate = true
 
         }
         return date
@@ -53,7 +50,7 @@ class AddOrderFragment : Fragment() {
         due_date_picker.setOnClickListener {
             val manager = fragmentManager
             //Todo collect info from list screen
-            val dialog = DatePickerFragment.newInstance(convertStringToDate(due_date_picker.text.toString())!!)
+            val dialog = DatePickerFragment.newInstance(convertStringToDate(due_date_picker.text.toString()))
             dialog.setTargetFragment(AddOrderFragment@ this, REQUEST_DATE)
             dialog.show(manager, DIALOG_DATE)
         }
@@ -146,13 +143,15 @@ class AddOrderFragment : Fragment() {
 
     fun saveOrder(name: String, orderSize: Int, totalPrice: Double) {
         //TODO check is order aguement is null
-        val currentDate: String = formatDate(convertStringToDate(due_date_picker.text.toString()))
-        if (order == null) {
-            val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
-            addOrderViewModel.insertOrder(newOrder)
-        } else {
+
+        val dateStamp: Date = convertStringToDate(due_date_picker.text.toString())
+        val currentDate: String = formatDate(dateStamp)
+        if (shouldUpdate) {
             val updatedOrder = order.copy(name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate)
             addOrderViewModel.updateOrder(updatedOrder)
+        } else {
+            val newOrder = Order(id = 0, name = name, quantity = orderSize, totalPrice = totalPrice, dueDate = currentDate, dateStamp = dateStamp)
+            addOrderViewModel.insertOrder(newOrder)
         }
         //if null insert oder else update order
     }

@@ -26,7 +26,7 @@ interface OrderDao {
     @Delete
     fun deleteOrder(order: Order)
 
-    @Query("SELECT dueDate, COUNT(quantity) as quantityGroup FROM order_table GROUP BY dueDate ORDER BY dueDate ASC")
+    @Query("SELECT dueDate, COUNT(quantity) as quantityGroup FROM order_table GROUP BY dueDate ORDER BY dateStamp ASC")
     fun getOrderGroupByDate(): LiveData<List<OrderGroupedByDate>>
 
     @Query("SELECT * FROM order_table WHERE dueDate =:dueDate ORDER BY name COLLATE NOCASE ASC")
