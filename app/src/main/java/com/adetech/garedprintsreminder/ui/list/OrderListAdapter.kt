@@ -32,6 +32,7 @@ class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandle
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.name.text = orders?.get(position)?.name.toString()
         holder.qauntity.text = orders?.get(position)?.quantity.toString()
+        holder.price.text = orders?.get(position)?.totalPrice.toString()
     }
 
     fun setOrder(order: List<Order>?) {
@@ -47,6 +48,7 @@ class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandle
         }
         val name: TextView = itemView.findViewById(R.id.name_txt)
         val qauntity: TextView = itemView.findViewById(R.id.order_quantity_txt)
+        val price: TextView = itemView.findViewById(R.id.number_of_order_txt)
 
         override fun onLongClick(p0: View?): Boolean {
             val order: Order = orders!![adapterPosition]
@@ -58,6 +60,5 @@ class OrderListAdapter(context: Context, val longClickHandler: OnLongClickHandle
             val order: Order = orders!![adapterPosition]
             clickHanlder.onClick(order)
         }
-
     }
 }

@@ -16,10 +16,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import android.app.Activity
 import android.content.Intent
-
+import android.widget.Toast
 
 
 class AddOrderFragment : Fragment() {
+
 
     private lateinit var addOrderViewModel: AddOrderViewModel
     private lateinit var order: Order
@@ -36,16 +37,18 @@ class AddOrderFragment : Fragment() {
 
         } else {
             order = serializedOrder as Order
-            date = convertStringToDate(order.dueDate)!!
+            date = convertStringToDate(order.dueDate)
             name_editTxt.setText(order.name)
             order_edit_txt.setText(order.quantity.toString())
+            val price: Double = order.totalPrice.toString().toDouble() / order.quantity.toString().toDouble()
+            price_editTxt.setText(price.toString())
             shouldUpdate = true
 
         }
         return date
     }
 
-    private fun initDatePicker(view: View, date: Date) {
+    private fun initDatePicker(date: Date) {
         updateDate(date)
         due_date_picker.setOnClickListener {
             val manager = fragmentManager
@@ -61,7 +64,7 @@ class AddOrderFragment : Fragment() {
         initViewModel()
         val date = initOrderData()
         //dueDateButton = view.findViewById(R.id.due_date_picker)
-        initDatePicker(view, date)
+        initDatePicker(date)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,9 +78,6 @@ class AddOrderFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.id_save_order -> {
                 //Use a fab button
@@ -88,6 +88,7 @@ class AddOrderFragment : Fragment() {
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != Activity.RESULT_OK) {
             return
@@ -97,28 +98,40 @@ class AddOrderFragment : Fragment() {
             val date = data!!.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
             //TODO collect data
             updateDate(date)
+
         }
     }
 
-    private fun isTextEmpty(): Pair<Boolean, Boolean> {
-        val isNameTxtEmpty: Boolean = TextUtils.isEmpty(name_editTxt.text)
-        val isOrderSizeEmpty: Boolean = TextUtils.isEmpty(order_edit_txt.text)
-        return Pair(isNameTxtEmpty, isOrderSizeEmpty)
+    private fun isNotTextEmpty(): Boolean {
+        val isNameTxtEmpty: Boolean = TextUtils.isEmpty(name_editTxt.text.trim())
+        val isOrderSizeEmpty: Boolean = TextUtils.isEmpty(order_edit_txt.text.trim())
+        val isPriceEmpty: Boolean = TextUtils.isEmpty(price_editTxt.text.trim())
+        //TODO fix text utils.
+        return !(isNameTxtEmpty && isOrderSizeEmpty && isPriceEmpty)
     }
+
+    inline fun String.toDouble(): Double = java.lang.Double.parseDouble(this)
 
     private fun getUserdata(): Triple<String, Int, Double> {
         val name: String = name_editTxt.text.toString()
         val orderSize: Int = order_edit_txt.text.toString().toInt()
-        val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        //TODO add price settings. And implement business logic
-        val jobPrice: Double = sharedPref?.getString(getString(R.string.price_of_job), getString(R.string.pref_default_price))!!.toDouble()
-        val totalPrice: Double = jobPrice * orderSize
+        val price: Double = price_editTxt.text.toString().toDouble()
+        val totalPrice: Double = orderSize * price
+
         return Triple(name, orderSize, totalPrice)
     }
 
     private fun formatDate(date: Date): String {
-        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy") as DateFormat
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         return dateFormat.format(date)
+    }
+
+    private fun isScheduleFull(date: String) {
+
+
+//        if(currentNumberOfOrders > maxOrder){
+//            Toast.makeText(activity!!, "You have a lot of orders due", Toast.LENGTH_LONG).show()
+//        }
     }
 
     private fun convertStringToDate(date: String): Date {
@@ -127,23 +140,33 @@ class AddOrderFragment : Fragment() {
     }
 
     private fun updateDatabase() {
-        val (isNameTxtEmpty: Boolean, isOrderSizeEmpty: Boolean) = isTextEmpty()
-        val (name: String, orderSize: Int, totalPrice: Double) = getUserdata()
+
         when {
-            !isNameTxtEmpty && !isOrderSizeEmpty -> {
+            isNotTextEmpty() -> {
+                val (name: String, orderSize: Int, totalPrice: Double) = getUserdata()
                 saveOrder(name, orderSize, totalPrice)
-//                when (activity?.parent) {
-//                    null -> activity?.setResult(Activity.RESULT_OK, replyIntent)
-//                    else -> activity?.parent?.setResult(Activity.RESULT_OK, replyIntent)
-//                }
+                finishFragment()
             }
+            else -> Toast.makeText(activity!!, "Please input data.", Toast.LENGTH_SHORT).show()
         }
     }
 
+    fun finishFragment() {
+        val intent = Intent()
+        activity!!.setResult(Activity.RESULT_OK, intent)
+        activity!!.finish()
+    }
 
-    fun saveOrder(name: String, orderSize: Int, totalPrice: Double) {
-        //TODO check is order aguement is null
+    private fun setupSharedPreferences() {
+        val sharedPref: SharedPreferences? = activity?.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        //TODO fix shared preference not return the right figure
+        val maxOrder: Int = sharedPref?.getString(getString(R.string.number_of_orders), getString(R.string.pref_default_max_order))!!.toInt()
 
+
+    }
+
+
+    private fun saveOrder(name: String, orderSize: Int, totalPrice: Double) {
         val dateStamp: Date = convertStringToDate(due_date_picker.text.toString())
         val currentDate: String = formatDate(dateStamp)
         if (shouldUpdate) {

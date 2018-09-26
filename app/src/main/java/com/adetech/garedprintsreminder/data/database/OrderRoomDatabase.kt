@@ -8,7 +8,6 @@ import android.content.Context
 abstract class OrderRoomDatabase: RoomDatabase() {
     abstract  fun orderDao(): OrderDao
 
-
     companion object {
         private var  instance : OrderRoomDatabase? = null
 

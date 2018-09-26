@@ -19,13 +19,15 @@ class OrderGroupModel(application: Application) : AndroidViewModel(application) 
      * Gets order grouped by date.
      * @return Livedata containing list of orderGroupedByDate objects.
      */
-    fun getOrderGroupedByDate(): LiveData<List<OrderGroupedByDate>> {
-        return repository.getOrderGroupedByDate()
+    fun getOrderGroupedByDate(isCompleted: Boolean): LiveData<List<OrderGroupedByDate>> {
+        return repository.getOrderGroupedByDate(isCompleted)
     }
 
-    fun deleteOrderByDate(date: String) {
-        repository.deleteOrderByDate(date)
-    }
+//    fun deleteOrderByDate(date: String) {
+//        repository.deleteOrderByDate(date)
+//    }
+
+
 }
 
 

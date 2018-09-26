@@ -58,7 +58,7 @@ class DatePickerFragment : DialogFragment() {
     }
 
     companion object {
-        public const val EXTRA_DATE: String = "com.adetech.garedprintsreminder.ui.add.DatePickerFragment.date"
+        const val EXTRA_DATE: String = "com.adetech.garedprintsreminder.ui.add.DatePickerFragment.date"
         private const val ARG_DATE = "date"
 
         fun newInstance(date: Date): DatePickerFragment {

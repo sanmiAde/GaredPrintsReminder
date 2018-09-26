@@ -6,21 +6,23 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.data.database.OrderGroupedByDate
-import com.adetech.garedprintsreminder.ui.utils.completeOrderDialog
 import kotlinx.android.synthetic.main.fragment_orders_group.*
+import kotlinx.android.synthetic.main.recycler_view.*
 
 
-class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, OrderGroupAdapter.OnItemLongClickHandler {
-    override fun onLongClick(date: String?) {
-        completeOrderDialog("Orders completed", "Orders deleted", activity!!) { orderGroupListViewModel.deleteOrderByDate(date!!) }
-    }
+class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler {
+
+//    override fun onLongClick(date: String?) {
+//        completeOrderDialog("Orders completed", "Orders deleted", activity!!) {
+//            orderGroupListViewModel.deleteOrderByDate(date!!)
+//        }
+//    }
 
     override fun onItemClick(date: String?) {
         (activity as Contract).listModelByDate(date)
@@ -43,9 +45,8 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, Ord
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view: View = inflater.inflate(R.layout.fragment_orders_group, container, false)
 
-        return view
+        return inflater.inflate(R.layout.fragment_orders_group, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,9 +55,17 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, Ord
         recyclerView = view.findViewById(R.id.recycler_view)
 
         val adapter: OrderGroupAdapter = setupRecyclerView()
-        orderGroupListViewModel.getOrderGroupedByDate().observe(this, Observer { orders: List<OrderGroupedByDate>? ->
+        orderGroupListViewModel.getOrderGroupedByDate(false).observe(this, Observer { orders: List<OrderGroupedByDate>? ->
+
+            if (orders?.size == 0) {
+                emptytxt.text = "Orders Completed"
+                recyclerView.visibility = View.INVISIBLE
+                emptytxt.visibility = View.VISIBLE
+            } else {
+                emptytxt.visibility = View.INVISIBLE
+                recyclerView.visibility = View.VISIBLE
             adapter.setOrder(orders)
-            Log.d(TAG, orders.toString())
+            }
         })
 
         //Create new order. Null parameter is used to determine if a new order is to be created or a an order is to be created.
@@ -71,7 +80,7 @@ class OrderGroupFragment : Fragment(), OrderGroupAdapter.OnItemClickHandler, Ord
     }
 
     private fun setupRecyclerView(): OrderGroupAdapter {
-        val adapter = OrderGroupAdapter(activity!!, this, this)
+        val adapter = OrderGroupAdapter(activity!!, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity!!)
         return adapter

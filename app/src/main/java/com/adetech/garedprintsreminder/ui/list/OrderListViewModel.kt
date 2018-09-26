@@ -10,12 +10,12 @@ class OrderListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val repository: Repository = Repository.getDatabase(application)
 
-    fun getOrdersByDate(date: String): LiveData<List<Order>> {
-        return repository.getOrderByDate(date)
+    fun getOrdersByDate(date: String, isCompleted: Boolean): LiveData<List<Order>> {
+        return repository.getOrderByDate(date, isCompleted)
     }
 
     fun completeOrder(order: Order): Unit {
-        repository.deleteOrder(order)
+        repository.updateOrder(order)
     }
 
 }

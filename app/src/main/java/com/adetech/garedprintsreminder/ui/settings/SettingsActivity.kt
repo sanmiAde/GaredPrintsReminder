@@ -26,9 +26,9 @@ class SettingsActivity : AppCompatActivity() {
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"))
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("notifications_alarm_time"))
             SettingsFragment.bindPreferenceSummaryToValue(findPreference("number_of_orders"))
-            SettingsFragment.bindPreferenceSummaryToValue(findPreference("price_of_job"))
-        }
 
+
+        }
         companion object {
 
             /**

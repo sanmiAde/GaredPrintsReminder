@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder
+package com.adetech.garedprintsreminder.utils
 
 import android.os.Handler
 import android.os.Looper

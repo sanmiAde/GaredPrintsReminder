@@ -24,7 +24,8 @@ data class Order(
         val quantity: Int,
         val totalPrice: Double = 0.0,
         val dueDate: String,
-        val dateStamp: Date) : Serializable
+        val dateStamp: Date,
+        val isCompleted: Boolean = false) : Serializable
 
-data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: String)
+data class OrderGroupedByDate(val quantityGroup: Int, val dueDate: String, val totalPrice: Double)
 

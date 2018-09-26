@@ -1,4 +1,4 @@
-package com.adetech.garedprintsreminder.ui.utils
+package com.adetech.garedprintsreminder.utils
 
 import android.content.Context
 import android.content.DialogInterface

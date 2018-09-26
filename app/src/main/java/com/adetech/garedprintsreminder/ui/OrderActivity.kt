@@ -6,19 +6,23 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.adetech.garedprintsreminder.R
 import com.adetech.garedprintsreminder.data.database.Order
 import com.adetech.garedprintsreminder.ui.add.AddOrderActivity
 import com.adetech.garedprintsreminder.ui.group.OrderGroupFragment
+import com.adetech.garedprintsreminder.ui.history.OrderHistoryActivity
 import com.adetech.garedprintsreminder.ui.list.OrderListFragment
 import com.adetech.garedprintsreminder.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, OrderGroupFragment.Contract, OrderListFragment.Contract {
+
+    companion object {
+        const val editRequestCode: Int = 234
+        const val addRequestCode: Int = 134
+    }
 
 
     override fun createFragment(): Fragment {
@@ -51,22 +55,6 @@ class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.orders, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -76,6 +64,10 @@ class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
             }
             R.id.nav_home ->{
                 replaceFragment(OrderGroupFragment.newInstance())
+            }
+            R.id.nav_history -> {
+                intent = OrderHistoryActivity.newInstance(this)
+                startActivity(intent)
             }
         }
 
@@ -88,11 +80,9 @@ class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
      */
     private fun replaceFragment(fragment: Fragment): Unit {
 
-        when {
-            supportFragmentManager.findFragmentById(R.id.fragment_container)::class.simpleName == fragment::class.simpleName -> Toast.makeText(this, fragment::class.java.simpleName, Toast.LENGTH_SHORT).show()
-            else -> supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container)::class.simpleName != fragment::class.simpleName) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit()
         }
-
     }
 
 
@@ -105,7 +95,18 @@ class OrderActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedLis
     }
 
     override fun editModel(order: Order?) {
-        startActivity(AddOrderActivity.newInstance(this, order))
+        startActivityForResult(AddOrderActivity.newInstance(this, order), editRequestCode)
     }
 
+    //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (resultCode != Activity.RESULT_OK) {
+//            return
+//        }
+//
+//        if (requestCode == REQUEST_DATE) {
+//            val date = data!!.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
+//            //TODO collect data
+//            updateDate(date)
+//        }
+//    }
 }

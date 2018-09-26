@@ -25,7 +25,8 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun initFragment() {
 
         if (supportFragmentManager.findFragmentById(R.id.fragment_container) == null) {
-            supportFragmentManager.beginTransaction().add(R.id.fragment_container, createFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, createFragment()).setCustomAnimations(android.R.anim.fade_in,
+                    android.R.anim.fade_out).commit()
         }
     }
 }
